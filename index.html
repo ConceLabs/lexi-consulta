@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexiConsulta - Biblioteca Jurídica</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LexiConsulta">
+    <!-- Ícono para iOS (opcional pero recomendado) -->
+    <!-- <link rel="apple-touch-icon" href="assets/icon-192.png"> -->
+
+    <style>
+        /* Estilo para el resaltado de búsqueda */
+        .search-highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+        /* Para asegurar que el contenido no se solape con la barra de herramientas fija */
+        #document-content {
+            padding-top: 10rem; /* Ajusta según la altura de tus barras fijas */
+            padding-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            #document-content {
+                padding-top: 6rem; /* Ajuste para escritorio */
+            }
+        }
+
+        /* Para que el iframe ocupe todo el espacio disponible y permita scroll interno */
+        #document-view {
+            width: 100%;
+            height: calc(100vh - 10rem); /* Ajusta según la altura de tus barras fijas */
+            border: none;
+        }
+        @media (min-width: 768px) {
+            #document-view {
+                height: calc(100vh - 6rem); /* Ajuste para escritorio */
+            }
+        }
+        /* Ocultar scrollbar del iframe si se prefiere, el contenido interno debe gestionarlo */
+        /* #document-view::-webkit-scrollbar { display: none; }
+        #document-view { -ms-overflow-style: none;  scrollbar-width: none; } */
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <!-- Barra Superior: Título y Selección de Documento -->
+        <header class="container mx-auto p-4 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600 mb-2 md:mb-0">LexiConsulta</h1>
+            <div class="flex items-center space-x-2">
+                <label for="document-selector" class="text-sm font-medium">Documento:</label>
+                <select id="document-selector" class="p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Seleccione un documento...</option>
+                    <!-- Opciones se llenarán con JS -->
+                </select>
+            </div>
+        </header>
+
+        <!-- Barra de Herramientas: Búsqueda y Zoom -->
+        <div class="container mx-auto px-4 pb-2 pt-1 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 md:space-x-4">
+            <div class="flex-grow w-full md:w-auto">
+                <input type="search" id="search-input" placeholder="Buscar en el documento..." class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div class="flex items-center space-x-2">
+                <button id="prev-result" class="p-2 bg-gray-200 hover:bg-gray-300 rounded-md text-sm" title="Resultado anterior">&lt;</button>
+                <span id="search-results-info" class="text-sm">0/0</span>
+                <button id="next-result" class="p-2 bg-gray-200 hover:bg-gray-300 rounded-md text-sm" title="Siguiente resultado">&gt;</button>
+                <button id="clear-search" class="p-2 bg-red-500 hover:bg-red-600 text-white rounded-md text-sm" title="Limpiar búsqueda">X</button>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm">Zoom:</span>
+                <button id="zoom-out" class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">-</button>
+                <button id="zoom-in" class="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor del Documento -->
+    <main id="document-content" class="container mx-auto p-4">
+        <div id="loading-message" class="text-center text-gray-500 py-10">
+            Seleccione un documento para comenzar.
+        </div>
+        <!-- Usaremos un iframe para aislar el CSS del documento y facilitar el manejo del contenido -->
+        <iframe id="document-view" src="about:blank"></iframe>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
