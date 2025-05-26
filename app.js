@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Lista de Documentos (podría venir de un JSON o API en el futuro) ---
     const documents = [
         { name: "Ley Orgánica Ministerio Público", path: "docs/ley_organica_ministerio_publico.html" },
-        { name: "Código Penal (Extracto)", path: "docs/codigo_penal.html" },
         // Agrega más documentos aquí
     ];
 
